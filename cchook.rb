@@ -6,20 +6,19 @@ require 'beanstalk-client'
 
 require 'mongrel'
 
-unless defined? CONF
-  CONF = YAML.load_file('config.yml')
-  puts "Configuring for #{CONF['queue']['servers'].inspect}"
-end
-
 class CCHook
+
+  def initialize
+    @conf = YAML.load_file('config.yml')
+  end
 
   def go(payload)
     payload = JSON.parse(payload)
     log_error(nil) and return unless payload.keys.include?("repository")
     @repo = payload['repository']['name']
-    log_error(payload) and return unless CONF['repos'][@repo]
+    log_error(payload) and return unless @conf['repos'][@repo]
 
-    queue = Beanstalk::Pool.new CONF['queue']['servers'], CONF['repos'][@repo]
+    queue = Beanstalk::Pool.new @conf['queue']['servers'], @conf['repos'][@repo]
     begin
       puts "Building #{@repo} on #{payload['after']}"
       queue.put(payload['after'])
