@@ -1,0 +1,6 @@
+---
+queue:
+  servers: [ server1:11300, server2:11300 ]
+
+repos:
+  repo_name: repo_name-build
