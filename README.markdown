@@ -27,6 +27,7 @@ the world.
 ## gems
 * [dustin-beanstalk-client](http://github.com/dustin/beanstalk-client-ruby)
 * mongrel
+* json
 
 # Configuring
 
